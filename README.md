@@ -11,3 +11,16 @@ A small Flask web app that I build, attack, monitor and then fix. The goal is to
 - Build a log analyzer that detects those attacks
 - Fix every weakness and prove the fix works
 - Show daily progress through commits and a daily log
+
+## 3. Tech stack
+- Python and Flask (web app)
+- SQLite (database)
+- HTML templates (Jinja2)
+- GitHub Codespaces (coding in the browser, no computer needed)
+- Git and GitHub (version control and proof of daily work)
+
+## 4. Features
+**The app:** registration, login, logout, a profile page, a protected dashboard.
+**Logging:** every login attempt (success or fail), registration, error and suspicious input, with time, IP and username.
+**Analyzer:** reads the log file and raises alerts.
+**Alerts page:** shows what the analyzer found.
