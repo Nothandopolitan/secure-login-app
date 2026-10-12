@@ -69,3 +69,14 @@ A small Flask web app that I build, attack, monitor and then fix. The goal is to
 | Mon 26 Oct | Fix sessions and access control, full retest |
 | Tue 27 Oct | Write the final report |
 | Wed 28 Oct | Polish README, record demo, submit |
+
+## 9. Daily routine
+1. Work on that day's task
+2. Commit with a clear message (e.g. "Add SQL injection test")
+3. Add an entry to docs/daily-log.md (what I did, what I learned, what is next)
+4. Save screenshots in docs/screenshots/
+
+## 10. Documentation
+- docs/daily-log.md: daily progress
+- docs/vulnerabilities.md: one section per attack (attack, steps, evidence, what the monitor caught, fix, retest result)
+- docs/report.md: final report with before and after results
