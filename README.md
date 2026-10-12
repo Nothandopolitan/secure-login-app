@@ -96,3 +96,9 @@ A small Flask web app that I build, attack, monitor and then fix. The goal is to
 - How SQL injection, XSS and brute force work
 - Reading and parsing text files in Python
 - Git basics (commit, push)
+
+## 13. Final deliverables
+- Working app (insecure version and secure version)
+- Log analyzer with alerts page
+- Full documentation and final report
+- Short demo video
