@@ -24,3 +24,18 @@ A small Flask web app that I build, attack, monitor and then fix. The goal is to
 **Logging:** every login attempt (success or fail), registration, error and suspicious input, with time, IP and username.
 **Analyzer:** reads the log file and raises alerts.
 **Alerts page:** shows what the analyzer found.
+
+## 5. Attacks I will test (OWASP Top 10 based)
+1. SQL injection on the login form
+2. Cross-site scripting (XSS) in a profile or comment field
+3. Brute-force password guessing
+4. Weak passwords and plain-text password storage
+5. Broken session handling (staying logged in after logout)
+6. Broken access control (viewing pages I should not see)
+
+## 6. Detection rules
+- 5+ failed logins from one IP within 5 minutes = brute-force alert
+- Quotes, OR 1=1 or -- in a username field = SQL injection alert
+- script tags in any input = XSS alert
+- Many different usernames tried from one IP = credential stuffing alert
+- Login at unusual hours = low-level warning
