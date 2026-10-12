@@ -80,3 +80,19 @@ A small Flask web app that I build, attack, monitor and then fix. The goal is to
 - docs/daily-log.md: daily progress
 - docs/vulnerabilities.md: one section per attack (attack, steps, evidence, what the monitor caught, fix, retest result)
 - docs/report.md: final report with before and after results
+
+## 11. Repo structure
+- README.md
+- app.py
+- templates/
+- logs/
+- analyzer/
+- attacks/
+- docs/ (daily-log.md, vulnerabilities.md, report.md, screenshots/)
+
+## 12. What I need to learn
+- Flask basics (routes, forms, templates)
+- SQL basics (SELECT, INSERT)
+- How SQL injection, XSS and brute force work
+- Reading and parsing text files in Python
+- Git basics (commit, push)
