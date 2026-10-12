@@ -39,3 +39,12 @@ A small Flask web app that I build, attack, monitor and then fix. The goal is to
 - script tags in any input = XSS alert
 - Many different usernames tried from one IP = credential stuffing alert
 - Login at unusual hours = low-level warning
+
+## 7. Fixes I will apply
+- Parameterised queries (stops SQL injection)
+- Escape output and validate input (stops XSS)
+- Hash passwords with bcrypt or Werkzeug
+- Rate limiting and temporary lockout
+- Secure session cookies and proper logout
+- Login-required checks on protected pages
+- Minimum password rules
