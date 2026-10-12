@@ -48,3 +48,24 @@ A small Flask web app that I build, attack, monitor and then fix. The goal is to
 - Secure session cookies and proper logout
 - Login-required checks on protected pages
 - Minimum password rules
+
+## 8. Day-by-day timeline
+| Date | Task |
+|---|---|
+| Mon 12 Oct | Create repo, README, daily log |
+| Tue 13 Oct | Set up Codespaces, run a Flask "Hello World" |
+| Wed 14 Oct | Build registration and login with SQLite (deliberately insecure) |
+| Thu 15 Oct | Add logging to a log file |
+| Fri 16 Oct | Attack 1: SQL injection, document it |
+| Sat 17 Oct | Attack 2: XSS, document it |
+| Sun 18 Oct | Attack 3: brute force with a simple script, document it |
+| Mon 19 Oct | Attack 4: weak and plain-text passwords |
+| Tue 20 Oct | Attacks 5 and 6: sessions and access control |
+| Wed 21 Oct | Analyzer: read and parse the log file |
+| Thu 22 Oct | Analyzer: add the detection rules |
+| Fri 23 Oct | Alerts page and test it against my attacks |
+| Sat 24 Oct | Fix SQL injection and XSS, retest |
+| Sun 25 Oct | Fix passwords and add rate limiting, retest |
+| Mon 26 Oct | Fix sessions and access control, full retest |
+| Tue 27 Oct | Write the final report |
+| Wed 28 Oct | Polish README, record demo, submit |
