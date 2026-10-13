@@ -9,4 +9,4 @@
 - Set up Codespaces and ran the Flask app
 - Confirmed Hello World with curl (browser port forwarding failed on my tablet)
 - Learned: how to use a Codespace and test a web app from the terminal
-
+- ![Flask Hello World running in Codespaces](Screenshot_20261013_184005_Chrome.jpg)
