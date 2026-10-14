@@ -56,3 +56,9 @@ def login():
             return redirect("/dashboard")
         message = "Wrong username or password."
     return render_template("login.html", message=message)
+
+@app.route("/dashboard")
+def dashboard():
+    if "user" not in session:
+        return redirect("/login")
+    return render_template("dashboard.html", username=session["user"])
