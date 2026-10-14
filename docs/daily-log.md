@@ -10,3 +10,9 @@
 - Confirmed Hello World with curl (browser port forwarding failed on my tablet)
 - Learned: how to use a Codespace and test a web app from the terminal
 - ![Flask Hello World running in Codespaces](Screenshot_20261013_184005_Chrome.jpg)
+
+## 14 Oct
+- Built registration, login, dashboard and logout with SQLite (insecure on purpose)
+- Wrote docs/insecure-design-notes.md listing the weaknesses to attack and fix
+- Learned: how Flask routes, forms and sessions fit together
+- Next: add logging to a log file
