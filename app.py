@@ -36,3 +36,23 @@ def register():
             message = "Could not create account. The username may be taken."
         db.close()
     return render_template("register.html", message=message)
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    message = ""
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+        db = get_db()
+        # Deliberately insecure: SQL built from user input.
+        query = (
+            "SELECT username FROM users WHERE username = '"
+            + username + "' AND password = '" + password + "'"
+        )
+        user = db.execute(query).fetchone()
+        db.close()
+        if user:
+            session["user"] = user[0]
+            return redirect("/dashboard")
+        message = "Wrong username or password."
+    return render_template("login.html", message=message)
