@@ -15,3 +15,24 @@ init_db()
 @app.route("/")
 def home():
     return render_template("index.html")
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    message = ""
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+        db = get_db()
+        try:
+            # Deliberately insecure: SQL built from user input,
+            # password stored as plain text.
+            db.execute(
+                "INSERT INTO users (username, password) VALUES ('"
+                + username + "', '" + password + "')"
+            )
+            db.commit()
+            message = "Account created. You can log in now."
+        except sqlite3.Error:
+            message = "Could not create account. The username may be taken."
+        db.close()
+    return render_template("register.html", message=message)
