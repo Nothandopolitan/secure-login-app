@@ -36,6 +36,7 @@ def register():
             log_event("register_success", username)
         except sqlite3.Error:
             message = "Could not create account. The username may be taken."
+            log_event("register_failed", username, "warning")
         db.close()
     return render_template("register.html", message=message)
 
