@@ -65,6 +65,7 @@ def login():
 @app.route("/dashboard")
 def dashboard():
     if "user" not in session:
+        log_event("dashboard_denied", level="warning")
         return redirect("/login")
     return render_template("dashboard.html", username=session["user"])
 
