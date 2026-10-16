@@ -58,6 +58,7 @@ def login():
             session["user"] = user[0]
             log_event("login_success", username)
             return redirect("/dashboard")
+        log_event("login_failed", username, "warning")
         message = "Wrong username or password."
     return render_template("login.html", message=message)
 
