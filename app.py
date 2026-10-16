@@ -71,6 +71,7 @@ def dashboard():
 
 @app.route("/logout")
 def logout():
+    log_event("logout", session.get("user", "-"))
     session.clear()
     return redirect("/")
 
