@@ -72,3 +72,8 @@ def dashboard():
 def logout():
     session.clear()
     return redirect("/")
+
+@app.errorhandler(sqlite3.Error)
+def handle_database_error(error):
+    log_event("database_error", request.form.get("username", "-"), "error")
+    return "Something went wrong.", 500
