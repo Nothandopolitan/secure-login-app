@@ -33,6 +33,7 @@ def register():
             )
             db.commit()
             message = "Account created. You can log in now."
+            log_event("register_success", username)
         except sqlite3.Error:
             message = "Could not create account. The username may be taken."
         db.close()
