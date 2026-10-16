@@ -11,4 +11,4 @@ This version is insecure on purpose. Each weakness below is attacked, documented
 | No password rules | /register | Weak passwords accepted | Minimum password rules |
 | Session is only checked in one place | /dashboard | Broken access control | Reusable login-required check |
 
-To run the app: `FLASK_APP=app python3 -m flask run --port 5000`
+To run the app: `python3 -m flask --app app run --host=0.0.0.0 --port 5000`
