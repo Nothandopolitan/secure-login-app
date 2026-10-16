@@ -56,6 +56,7 @@ def login():
         db.close()
         if user:
             session["user"] = user[0]
+            log_event("login_success", username)
             return redirect("/dashboard")
         message = "Wrong username or password."
     return render_template("login.html", message=message)
