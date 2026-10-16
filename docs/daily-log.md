@@ -16,3 +16,18 @@
 - Wrote docs/insecure-design-notes.md listing the weaknesses to attack and fix
 - Learned: how Flask routes, forms and sessions fit together
 - Next: add logging to a log file
+
+## Thu 15 Oct
+- Added logging to the app on the school PC: app_logging.py and log_event calls in every route
+- Did not push the commits, so they never reached GitHub
+- Decided not to go back to that PC and to redo the work instead
+- Learned: commit and push before leaving a machine
+- Next: rebuild logging on 16 Oct
+
+## Fri 16 Oct
+- Rebuilt the logging, since the 15 Oct work was never pushed
+- Codespaces would not load, so I edited on GitHub and tested on the school PC
+- Logs go to logs/app.log: registration, login, database errors, dashboard access and logout
+- Tested with curl: register_success, login_success, login_failed and dashboard_denied all logged (screenshot in docs/)
+- Documented the log format in docs/log-format.md
+- Next: Attack 1, SQL injection on the login form
