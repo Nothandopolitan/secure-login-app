@@ -3,6 +3,7 @@ import sqlite3
 from flask import Flask, redirect, render_template, request, session
 
 from db import get_db, init_db
+from app_logging import log_event
 
 app = Flask(__name__)
 
