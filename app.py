@@ -7,7 +7,6 @@ from app_logging import log_event
 
 app = Flask(__name__)
 
-# Deliberately weak secret key. Insecure on purpose, fixed later.
 app.secret_key = "dev"
 
 init_db()
@@ -40,4 +39,46 @@ def register():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    mes
+    message = ""
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+        db = get_db()
+        query = (
+            "SELECT username FROM users WHERE username = '"
+            + username + "' AND password = '" + password + "'"
+        )
+        user = db.execute(query).fetchone()
+        db.close()
+        if user:
+            session["user"] = user[0]
+            log_event("login_success", username)
+            return redirect("/dashboard")
+        log_event("login_failed", username, "warning")
+        message = "Wrong username or password."
+    return render_template("login.html", message=message)
+
+@app.route("/dashboard")
+def dashboard():
+    if "user" not in session:
+        log_event("dashboard_denied", level="warning")
+        return redirect("/login")
+    return render_template("dashboard.html", username=session["user"])
+
+@app.route("/users")
+def list_users():
+    db = get_db()
+    rows = db.execute("SELECT username FROM users").fetchall()
+    db.close()
+    return "<br>".join(row[0] for row in rows)
+
+@app.route("/logout")
+def logout():
+    log_event("logout", session.get("user", "-"))
+    session.clear()
+    return redirect("/")
+
+@app.errorhandler(sqlite3.Error)
+def handle_database_error(error):
+    log_event("database_error", request.form.get("username", "-"), "error")
+    return "Something went wrong.", 500
