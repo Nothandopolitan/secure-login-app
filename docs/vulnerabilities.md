@@ -55,3 +55,12 @@ One section per attack. Copy this template for each one.
 - Extra finding: the forged, successful dashboard visit left no log entry at all. The log only records dashboard_denied (failed) visits, never successful ones, so this attack is invisible in the current logging.
 - Why it works: Flask trusts any cookie correctly signed with secret_key. A weak, guessable key lets anyone forge a valid session for any username.
 - Planned fix: use a long, random secret_key loaded from an environment variable, not hardcoded in the source code. Also add a log line for successful dashboard access, not just denied access.
+
+## Attack 6: Broken Access Control
+- Where: /users (a new route, not previously in the app)
+- Setup: /dashboard checks "if 'user' not in session" before showing content. /users was added without that same check, since the login check isn't reusable and has to be copy-pasted into every protected route.
+- Method: visited /users directly with curl, no login, no session, no cookie at all
+- Result: the route returned the username(s) in the database with full access, no authentication required
+- Log evidence: logs/app.log has no entry at all for this access, since the route never calls log_event. The attack is completely invisible.
+- Why it works: access control is only applied per-route, by hand, instead of being enforced in one reusable place. Forgetting to add the check (as this route demonstrates) leaves it wide open.
+- Planned fix: write one reusable "login_required" check (a decorator) and apply it to every route that needs protection, so a forgotten check like this can't happen. Also log every dashboard/users access, not just denied ones.
