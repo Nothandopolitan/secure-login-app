@@ -41,3 +41,10 @@ One section per attack. Copy this template for each one.
 - Log evidence: logs/app.log shows 10 login_failed lines in a row, all for username="demo", seconds apart
 - Why it works: /login has no limit on how many times a password can be guessed
 - Planned fix: add rate limiting (e.g. lock the account or slow down attempts after a few failures)
+
+## Attack 4: Plaintext Password Storage
+- Where: users table in users.db
+- Method: registered a user (demo / mypassword123), then queried the database directly: SELECT username, password FROM users
+- Result: the password came back exactly as typed: [('demo', 'mypassword123')]
+- Why it works: db.py stores the password string directly with no hashing
+- Planned fix: hash passwords before storing (e.g. with Werkzeug's generate_password_hash) and compare hashes on login instead of comparing raw strings
