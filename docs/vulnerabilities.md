@@ -46,3 +46,12 @@ One section per attack. Copy this template for each one.
 - Result: the password came back exactly as typed: [('demo', 'mypassword123')]
 - Why it works: db.py stores the password string directly with no hashing
 - Planned fix: hash passwords before storing (e.g. with Werkzeug's generate_password_hash) and compare hashes on login instead of comparing raw strings
+
+## Attack 5: Session Forgery (Weak Secret Key)
+- Where: session cookie, signed using app.secret_key
+- Setup: app.py sets app.secret_key = "dev", a weak hardcoded key
+- Method: used flask-unsign to sign a fake session cookie claiming {'user': 'admin'}, using the known key "dev", with no registration or login at all
+- Result: sending that forged cookie to /dashboard returned 200 OK and showed "Welcome, admin." No account named admin was ever created or logged into.
+- Extra finding: the forged, successful dashboard visit left no log entry at all. The log only records dashboard_denied (failed) visits, never successful ones, so this attack is invisible in the current logging.
+- Why it works: Flask trusts any cookie correctly signed with secret_key. A weak, guessable key lets anyone forge a valid session for any username.
+- Planned fix: use a long, random secret_key loaded from an environment variable, not hardcoded in the source code. Also add a log line for successful dashboard access, not just denied access.
