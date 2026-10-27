@@ -33,3 +33,11 @@ One section per attack. Copy this template for each one.
   - 2026-10-26 14:37:23 INFO login_success username="<script>alert("XSS")</script>"
 - Why it works: the | safe filter tells Jinja2 not to escape the username, so any HTML or script in it runs as real code in the browser.
 - Planned fix: remove | safe so Jinja2 escapes the username normally (already documented as the fix in insecure-design-notes.md)
+
+## Attack 3: Brute Force (No Rate Limiting)
+- Where: /login
+- Method: sent 10 login attempts in a row for username "demo" with different wrong passwords, no delay between attempts
+- Result: all 10 attempts were accepted and processed normally. No lockout, no delay, no CAPTCHA.
+- Log evidence: logs/app.log shows 10 login_failed lines in a row, all for username="demo", seconds apart
+- Why it works: /login has no limit on how many times a password can be guessed
+- Planned fix: add rate limiting (e.g. lock the account or slow down attempts after a few failures)
