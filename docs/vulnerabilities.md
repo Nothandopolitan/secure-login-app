@@ -11,7 +11,6 @@ One section per attack. Copy this template for each one.
 - **Retest result:** blocked or not
 
 ## Attack 1: SQL Injection (Login Bypass)
-- Date: 16 Oct 2026
 - Where: /login
 - Payload: username = demo' -- , password = anything
 - Result: Logged in as demo with no correct password. Server returned 302 to /dashboard.
@@ -20,7 +19,6 @@ One section per attack. Copy this template for each one.
 - Planned fix: use parameterised queries (db.execute("SELECT * FROM users WHERE username=? AND password=?", (username, password)))
 
 ## Attack 2: Stored XSS (Dashboard)
-- Date: 26 Oct 2026
 - Where: /register and /dashboard
 - Setup: dashboard.html uses {{ username | safe }}, turning off Jinja2's automatic escaping (deliberate, documented in insecure-design-notes.md)
 - Payload: username = <script>alert("XSS")</script>, password = 1234
@@ -28,9 +26,9 @@ One section per attack. Copy this template for each one.
 - Second attempt with double quotes succeeded. Log shows register_success, then login_success.
 - Result: visiting /dashboard ran the script instead of printing it as text. A popup alert box appeared showing "XSS".
 - Log evidence (logs/app.log):
-  - 2026-10-26 14:36:07 WARNING register_failed username="<script>alert('XSS')</script>"
-  - 2026-10-26 14:36:49 INFO register_success username="<script>alert("XSS")</script>"
-  - 2026-10-26 14:37:23 INFO login_success username="<script>alert("XSS")</script>"
+  - WARNING register_failed username="<script>alert('XSS')</script>"
+  - INFO register_success username="<script>alert("XSS")</script>"
+  - INFO login_success username="<script>alert("XSS")</script>"
 - Why it works: the | safe filter tells Jinja2 not to escape the username, so any HTML or script in it runs as real code in the browser.
 - Planned fix: remove | safe so Jinja2 escapes the username normally (already documented as the fix in insecure-design-notes.md)
 
