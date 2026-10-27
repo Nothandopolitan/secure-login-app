@@ -25,8 +25,19 @@ def register():
         password = request.form["password"]
         db = get_db()
         try:
-            # Deliberately insecure: SQL built from user input,
-            # password stored as plain text.
             db.execute(
                 "INSERT INTO users (username, password) VALUES ('"
-                + username + "', '" + pass 
+                + username + "', '" + password + "')"
+            )
+            db.commit()
+            message = "Account created. You can log in now."
+            log_event("register_success", username)
+        except sqlite3.Error:
+            message = "Could not create account. The username may be taken."
+            log_event("register_failed", username, "warning")
+        db.close()
+    return render_template("register.html", message=message)
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    mes
