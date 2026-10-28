@@ -16,4 +16,4 @@ def handle_packet(packet):
 
 if __name__ == "__main__":
     print(f"Watching traffic on port {PORT}. Press Ctrl+C to stop.")
-    sniff(filter=f"tcp port {PORT}", prn=handle_packet, store=False)
+    sniff(iface="lo", filter=f"tcp port {PORT}", prn=handle_packet, store=False)
