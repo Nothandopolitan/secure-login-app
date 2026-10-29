@@ -131,7 +131,6 @@ def list_users():
 
 
 # --- OWASP A08: Software and Data Integrity Failures Fix ---
-# Safe Data Import via JSON instead of unsafe Python pickle deserialization
 @app.route("/import-settings", methods=["POST"])
 @login_required
 def import_settings():
@@ -147,14 +146,12 @@ def import_settings():
 
 
 # --- OWASP A10: Server-Side Request Forgery (SSRF) Fix ---
-# Destination Whitelisting Control for external API requests
 @app.route("/fetch-external", methods=["POST"])
 @login_required
 def fetch_external():
     target_url = request.form.get("url", "")
     parsed = urlparse(target_url)
 
-    # Validate scheme and domain against whitelist
     if parsed.scheme not in ["http", "https"] or parsed.netloc not in ALLOWED_DOMAINS:
         log_event("ssrf_attempt_blocked", session["user"], "warning")
         return jsonify({"error": "Access to targeted URL is forbidden"}), 403
