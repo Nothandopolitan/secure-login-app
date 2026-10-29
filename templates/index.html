@@ -1,10 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Secure Login App</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
 </head>
 <body>
-  <h1>Secure Login App</h1>
-  <p><a href="/register">Register</a> | <a href="/login">Log in</a></p>
+  <main class="container" style="max-width: 600px; margin-top: 100px;">
+    <article>
+      <header style="text-align: center;">
+        <h1 style="margin-bottom: 0.25rem;">Secure Login App</h1>
+        <small>OWASP Top 10 Hardened Authentication Engine</small>
+      </header>
+      
+      <p style="text-align: center; margin-top: 1rem;">
+        Demonstrating real-time logging, rate limiting, and cryptographic security controls.
+      </p>
+
+      <footer style="display: flex; gap: 1rem; justify-content: center; padding-top: 1rem;">
+        <a href="/login" role="button" class="contrast" style="flex: 1; text-align: center;">Log In</a>
+        <a href="/register" role="button" class="secondary" style="flex: 1; text-align: center;">Register</a>
+      </footer>
+    </article>
+  </main>
 </body>
 </html>
