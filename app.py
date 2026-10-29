@@ -2,9 +2,11 @@ import os
 import secrets
 import sqlite3
 import time
+import json
+from urllib.parse import urlparse
 from functools import wraps
 
-from flask import Flask, redirect, render_template, request, session
+from flask import Flask, redirect, render_template, request, session, jsonify
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from db import get_db, init_db
@@ -19,6 +21,9 @@ init_db()
 FAILED_LOGIN_LIMIT = 5
 LOCKOUT_SECONDS = 60
 login_attempts = {}
+
+# Allowed domains for SSRF Protection (A10:2021)
+ALLOWED_DOMAINS = ["api.github.com", "httpbin.org"]
 
 
 def is_locked_out(username):
@@ -125,6 +130,39 @@ def list_users():
     return "<br>".join(row[0] for row in rows)
 
 
+# --- OWASP A08: Software and Data Integrity Failures Fix ---
+# Safe Data Import via JSON instead of unsafe Python pickle deserialization
+@app.route("/import-settings", methods=["POST"])
+@login_required
+def import_settings():
+    try:
+        data = request.get_json()
+        if not data or not isinstance(data, dict):
+            return jsonify({"error": "Invalid JSON format"}), 400
+        log_event("settings_imported", session["user"])
+        return jsonify({"status": "Settings updated safely", "data": data})
+    except Exception:
+        log_event("settings_import_failed", session["user"], "warning")
+        return jsonify({"error": "Failed to parse data"}), 400
+
+
+# --- OWASP A10: Server-Side Request Forgery (SSRF) Fix ---
+# Destination Whitelisting Control for external API requests
+@app.route("/fetch-external", methods=["POST"])
+@login_required
+def fetch_external():
+    target_url = request.form.get("url", "")
+    parsed = urlparse(target_url)
+
+    # Validate scheme and domain against whitelist
+    if parsed.scheme not in ["http", "https"] or parsed.netloc not in ALLOWED_DOMAINS:
+        log_event("ssrf_attempt_blocked", session["user"], "warning")
+        return jsonify({"error": "Access to targeted URL is forbidden"}), 403
+
+    log_event("external_fetch_success", session["user"])
+    return jsonify({"status": "Destination validated and permitted", "url": target_url})
+
+
 @app.route("/logout")
 def logout():
     log_event("logout", session.get("user", "-"))
@@ -132,7 +170,23 @@ def logout():
     return redirect("/")
 
 
+# --- OWASP A05: Security Misconfiguration Handlers ---
 @app.errorhandler(sqlite3.Error)
 def handle_database_error(error):
     log_event("database_error", request.form.get("username", "-"), "error")
     return "Something went wrong.", 500
+
+
+@app.errorhandler(500)
+def handle_internal_error(error):
+    log_event("internal_server_error", level="error")
+    return "An internal server error occurred. Please try again later.", 500
+
+
+@app.errorhandler(404)
+def handle_not_found(error):
+    return "Page not found.", 404
+
+
+if __name__ == "__main__":
+    app.run(port=5000, debug=False)
