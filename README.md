@@ -1,5 +1,11 @@
 # Secure Login App with Attack Detection
 
+## 🎥 Demo Video
+
+[Watch the 5-10 minute demo on YouTube (unlisted)](https://youtu.be/cgV0c0uu6DM)
+
+The video walks through SQL injection, XSS and password hashing, comparing the insecure version of the app with the fixed version.
+
 ## 1. Overview
 A small Flask web app that I build, attack, monitor and then fix. The goal is to learn practical cybersecurity by doing both offence and defence, and to document every step with evidence.
 
